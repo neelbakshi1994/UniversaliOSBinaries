@@ -14,7 +14,7 @@ puts "Target saved"
 pods_directory = "./Pods"
 pods_project = "#{pods_directory}/Pods.xcodeproj"
 build_directory = "./PodsBuild"
-configuration = "Debug"
+configuration = "Release"
 iphoneos_libs_directory = "#{build_directory}/#{configuration}-iphoneos"
 iphonesimulator_libs_directory = "#{build_directory}/#{configuration}-iphonesimulator"
 universal_directory = "#{build_directory}/Universal"
@@ -29,8 +29,8 @@ Dir.glob("./Pods/**/*.framework") do |framework_path|
 end
 
 #==================== Building simulator and device versions =================
-system("xcodebuild -project \"#{pods_project}\" -target \"Pods\" ONLY_ACTIVE_ARCH=NO -configuration #{configuration} -sdk iphoneos  BUILD_DIR=\"../PodsBuild\" clean build")
-system("xcodebuild -project \"#{pods_project}\" -target \"Pods\" -configuration #{configuration} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"../PodsBuild\" clean build")
+system("xcodebuild -project \"#{pods_project}\" -target \"Pods\" ONLY_ACTIVE_ARCH=NO -configuration #{configuration} -sdk iphoneos  BUILD_DIR=\"../PodsBuild\" OTHER_CFLAGS=\"-fembed-bitcode\" clean build")
+system("xcodebuild -project \"#{pods_project}\" -target \"Pods\" -configuration #{configuration} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"../PodsBuild\" OTHER_CFLAGS=\"-fembed-bitcode\" clean build")
 
 puts "Copying iphone os libraries to #{universal_directory}"
 system("find #{iphoneos_libs_directory} -name '*.framework' -exec cp -rpv \'{}\' #{universal_directory} \';\'")
