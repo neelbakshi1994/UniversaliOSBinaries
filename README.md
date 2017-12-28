@@ -8,6 +8,8 @@
   
 2. `embed_frameworks` -> Tries to link all the .frameworks from the Universal build folder into your project. This is a work in progress.
 
+3. `stripping_unwanted_architectures.sh` -> Before you archive, this script needs to be added as an run script phase to your main target, so that it removes the simulator architectures from your fat binaries that you built using `universal_pods`
+
 ## Requirements
 
 ### Xcodeproj
